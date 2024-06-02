@@ -1,0 +1,45 @@
+.container {
+  background-color: #001001;
+  padding: 3rem calc((100vw - 1350px) / 2);
+  overflow-x: hidden;
+}
+
+.player-wrapper {
+  position: relative;
+  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+  opacity: 1;
+  transform: scale(1, 1);
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.player--container {
+  position: relative;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  margin: auto;
+
+  /* height: 100%; */
+  height: auto;
+}
+
+@media screen and (max-width: 960px) {
+  .player--container {
+    max-width: 50%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .player-wrapper {
+    position: relative;
+    padding-top: calc(
+      591.44 / 1127.34 * 100%
+    ); /* Player ratio: 100 / (1280 / 720) */
+  }
+}

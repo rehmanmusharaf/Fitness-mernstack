@@ -1,0 +1,85 @@
+.form--container{
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1)),
+    url("https://themeydanhotel.com/sites/default/files/2018-03/Gym.jpg");
+  height: 80vh;
+  max-height: 700px;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  padding: 5rem calc((100vw-1300px)/2);
+  /*border:1px solid yellow;*/
+  
+}
+.content{
+  /*border:1px solid green;*/
+  margin:1rem auto;
+}
+.animate{
+  opacity:0;
+  transform: translateY(-40%);
+}
+.content h1{
+  margin-bottom: 1rem;
+  font-family: "Oswald",sans-serif;
+  font-weight: bold;
+  font-size: clamp(2rem, 5vw, 4rem);
+  padding:0 1rem;
+}
+
+.content p{
+  font-family: "Montserrat",sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  width:80%;
+  margin:auto;
+  padding:0 1rem;
+  margin-bottom: 2rem;
+}
+.form--wrap{
+  display:flex;
+  justify-content: center;
+
+}
+
+.form--wrap input{
+  padding: 0.5rem 2.5rem 0.5rem 0.4rem;
+  outline:none;
+  border:none;
+  border-radius: 2px;
+}
+
+::placeholder {
+  color: rgb(128, 128, 128);
+  font-family:"Muli", "sans-serif";
+  font-size: 17px;
+}
+
+.button--su{
+  margin-top: 0.66rem;
+  margin-left: 0.5rem;
+}
+
+@media screen and (max-width:550px){
+  .form--wrap{
+    flex-direction:column;
+  }
+  .form--wrap input{
+    padding: 1rem 2.5rem 1rem 0.3rem;
+    width:70%;
+    margin:auto;
+  }
+  .button--su{
+  margin-top: 1rem;
+  margin-left: 0;
+}
+ .button--su .btn{
+   width:70%;
+ }
+ .form--container{
+   height: 100vh;
+ }
+}

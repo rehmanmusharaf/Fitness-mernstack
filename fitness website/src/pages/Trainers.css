@@ -1,0 +1,184 @@
+.welcome, .why{
+  /*border:1px solid black;*/
+  padding:2rem 0rem;
+  max-width: 1050px;
+  margin:4rem auto;
+}
+
+.welcome img{
+  width:100%;
+  height: 80%;
+}
+
+
+.welcome >.welcome--headline{
+  /*border:1px solid red;*/
+  background:rgb(250, 250, 250);
+  margin-left:-50px;
+  min-height:300px;
+  padding:2rem 1rem;
+  opacity:0;
+  transform: translate(3%,50%);
+}
+.welcome--headline h3{
+  margin:1rem 0rem ;
+  font-family: "oswald",sans-serif;
+}
+.welcome--headline p{
+  font-family: "Montserrat",sans-serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem); 
+  margin-bottom: 1rem;
+}
+.why{
+ /*border:1px solid black;*/
+ margin:4rem auto 0rem auto;
+  
+}
+.why h3{
+  font-family: "oswald",sans-serif;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+}
+.why--container{
+  /*border:1px solid yellow;*/
+  max-width:1050px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 2rem;
+  margin: 2rem auto;
+
+}
+.why--container--wrapper{
+  /*border:1px solid red;*/
+   position: relative;
+  opacity:0;
+  transform: translateY(40%);
+}
+.why--container img{
+  width:100%;
+  height: 500px;
+  object-fit: cover;
+  z-index:2;
+}
+.why--container--wrapper >.welcome--headline{
+    background:rgb(250, 250, 250);
+    min-height: 395px;
+    padding:1rem ;
+    width:80%;
+    margin:auto;
+    position: relative;
+    margin-top:-35px;
+    top: 0px;
+    border:1px solid rgb(250, 250, 250);
+}
+.welcome--headline > h3{
+  font-family: "oswald",sans-serif;
+  text-align: center;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+}
+.challenge{
+  padding:2rem 1rem;
+   background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1)),
+    url("https://ttmadrid.com/wp-content/uploads/2018/05/Gyms-in-Madrid-TtMadrids-pick-of-one-month-options.jpg");
+  height: 40vh;
+  max-height: 700px;
+  margin-top:85px;
+  background-position: center;
+  background-size: cover;
+  color:#fff;
+   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.challenge .challenge--container{
+  /*border:1px solid red;*/
+  max-width:1050px;
+  margin:auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.challenge--container .challenge--headline{
+  /*border:1px solid yellow;*/
+  padding:1rem ;
+  max-width:75%;
+  margin: auto;
+  
+}
+.challenge--headline p{
+  font-family: "Montserrat",sans-serif;
+  font-size: clamp(1rem, 2vw, 1.5rem); 
+  margin-top:1rem;
+}
+.challenge--container .middle{
+ margin:auto;
+}
+
+@media screen and (min-width:920px){
+ .welcome{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+ }
+ .welcome img{
+  width:610px;
+  height: 550px;
+  opacity:0;
+  transform: translate(-100%,50%);
+}
+.why--container{
+  grid-template-columns: repeat(2,1fr);
+}
+
+
+}
+@media screen and (max-width:919px){
+  .welcome img{
+    transform: translate(-100%,50%);
+  }
+  .welcome{
+    width:80%;
+    margin:auto;
+  }
+  .welcome >.welcome--headline{
+    margin-left:0px;
+     text-align: center;
+     transform: translate(3%,30%);
+  }
+  .welcome--headline p{
+  font-family: "Montserrat",sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+.why--container--wrapper {
+  width:90%;
+  margin:auto;
+}
+.why--container--wrapper >.welcome--headline{
+    width:100%;
+      position: relative;
+      margin-top:-4px;
+      height: auto;
+      
+}.challenge{
+  height: 55vh;
+  margin-top:2rem;
+}
+.challenge .challenge--container{
+  flex-direction: column;
+  width:100%;
+  padding:1rem 0 ;
+
+}
+}
+@media screen and (max-width:450px){
+  .welcome{
+    width:90%;
+    margin:auto;
+  }
+  .challenge--container  .challenge--headline{
+    margin-bottom: 1rem;
+  }
+  
+}

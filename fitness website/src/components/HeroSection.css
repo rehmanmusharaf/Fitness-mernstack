@@ -1,0 +1,96 @@
+.hero-container {
+  background: url("https://clarksvillenow.sagacom.com/files/2019/02/workout-gym-exercise-equipment-shutterstock.jpg");
+  object-fit: contain;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 80px;
+  height: 600px;
+  width: 100%;
+}
+
+.hero-container::before {
+  /* margin-top:80px; */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 600px;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#hero * {
+  position: relative;
+}
+
+.hero--header {
+  padding: 0.5rem calc((100vw - 1300px) / 2);
+  /*border:1px solid yellow;*/
+  max-width: 80%;
+  margin-bottom: 5.5rem;
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.hero--header > h1 {
+  color: #fff;
+  font-family: "oswald", sans-serif;
+  font-size: clamp(3.2rem, 10vw, 7rem);
+}
+.hero--header > h3 {
+  margin-top: 8px;
+  color: #fff;
+  font-size: clamp(1.5rem, 2.5vw, 3rem);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  width: 80%;
+  margin: 1rem 0;
+}
+.hero--header > h3 > span {
+  color: #ffcd00;
+  font-weight: bold;
+}
+
+.hero--header > h3 > span > small {
+  font-size: clamp(0.9rem, 1.7vw, 1.4rem);
+}
+
+.hero-btns {
+  margin-top: 35px;
+}
+@media screen and (min-width: 950px) {
+  .hero--header {
+    /*border:1px solid red;*/
+    margin-left: 8rem;
+  }
+}
+@media screen and (max-width: 950px) {
+  .hero--header {
+    margin-left: 2.5rem;
+  }
+}
+@media screen and (max-width: 750px) {
+  .hero-btns .btn {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .hero-container,
+  .hero-container::before {
+    height: 450px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .hero--header > h3 {
+    width: 90%;
+  }
+  .hero--header {
+    margin-left: 2rem;
+  }
+}
