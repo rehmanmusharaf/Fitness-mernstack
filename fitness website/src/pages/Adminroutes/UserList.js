@@ -105,23 +105,22 @@ const UserList = ({ activate, Users }) => {
   return (
     <div style={styles.container}>
       {Users.map((user, index) => (
-        <Link
+        <div
           key={user._id}
           style={{
             ...styles.listItem,
             ...(hoveredIndex === index ? styles.listItemHover : {}),
           }}
-          to={`/userstats/${user._id}`}
           onMouseEnter={() => handleMouseEnter(index)}
           onMouseLeave={handleMouseLeave}
         >
-          <div style={styles.userInfo}>
+          <Link to={`/userstats/${user._id}`} style={styles.userInfo}>
             <div style={styles.username} className=" text-decoration-none">
               {user.full_name}
             </div>
             {/* <div style={styles.userId}>ID: {user._id}</div> */}
             <div style={styles.userId}>Phone: {user.phone}</div>
-          </div>
+          </Link>
           <button
             className={`btn  ${activate ? "btn-danger" : "btn-success"}`}
             onClick={() => handleActivation(activate, user._id)}
@@ -129,7 +128,7 @@ const UserList = ({ activate, Users }) => {
           >
             {activate ? "Inactivate" : "Activate"}
           </button>
-        </Link>
+        </div>
       ))}
     </div>
   );
