@@ -17,7 +17,7 @@ dotenv.config();
 // corsOptions
 const cors = require("cors");
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: process.env.REACT_APP_URL,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
