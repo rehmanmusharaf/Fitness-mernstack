@@ -4,7 +4,8 @@ import { MdCancel } from "react-icons/md";
 const Form = ({ setClick, name, setCount, handleupdation }) => {
   function func(e) {
     e.preventDefault();
-    console.log("func run");
+    // console.log("func run");
+    setClick(false);
   }
   return (
     <>

@@ -76,7 +76,7 @@ const index = () => {
   return (
     <div className=" container bg-transparent ">
       <div className="App container bg-transparent ">
-        <h1>Register Your Diet Plan</h1>
+        <h3 className=" text-center">Register Your Diet Plan</h3>
         <MultiStep steps={steps} style={{ justifyContent: "center" }} />
       </div>
     </div>

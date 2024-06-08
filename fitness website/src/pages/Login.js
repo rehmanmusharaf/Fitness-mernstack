@@ -18,7 +18,8 @@ const styles = {
   },
   form: {
     width: "100%",
-    background: "rgb(22 20 62)",
+    backgroundImage:
+      "url('https://static.vecteezy.com/system/resources/previews/025/851/892/non_2x/bodybuilder-male-figure-icon-gym-logo-template-athletic-man-sign-white-silhouette-on-black-background-illustration-vector.jpg')",
     paddingTop: "63px",
     paddingLeft: "20px",
     paddingRight: "20px",
@@ -141,49 +142,56 @@ const RegistrationPage = () => {
     <>
       <div style={styles.wrapper}>
         <div style={styles.inner}>
-          <form style={styles.form} className="" onSubmit={registeruser}>
-            <h3 style={styles.h3}>Login Form</h3>
+          <form
+            style={styles.form}
+            className=" position-relative"
+            onSubmit={registeruser}
+          >
+            <div className="overlay position-absolute"></div>
+            <div className=" position-relative" style={{ zIndex: "1001" }}>
+              <h3 style={styles.h3}>Login Form</h3>
 
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Email
-              </label>
-              <input
-                className="inputtag"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                style={styles.formControl}
-              />
-            </div>
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Password
-              </label>
-              <input
-                className="inputtag"
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-                style={styles.formControl}
-              />
-            </div>
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Email
+                </label>
+                <input
+                  className="inputtag"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  style={styles.formControl}
+                />
+              </div>
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Password
+                </label>
+                <input
+                  className="inputtag"
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                  style={styles.formControl}
+                />
+              </div>
 
-            {loading ? (
-              <button style={styles.button} className=" mb-2 ">
-                <div className="spinner-border" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-              </button>
-            ) : (
-              <button style={styles.button} className=" mb-2 ">
-                Submit
-              </button>
-            )}
+              {loading ? (
+                <button style={styles.button} className=" mb-2 ">
+                  <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </button>
+              ) : (
+                <button style={styles.button} className=" mb-2 ">
+                  Submit
+                </button>
+              )}
+            </div>
           </form>
         </div>
       </div>

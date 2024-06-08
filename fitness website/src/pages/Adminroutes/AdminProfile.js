@@ -30,6 +30,7 @@ function User() {
   const [height, setHeight] = useState(null);
   const [phone, setPhone] = useState(null);
   const [planType, setPlanType] = useState(null);
+  let [age, setAge] = useState(null);
   const updateUserProfile = async (e) => {
     try {
       e.preventDefault();
@@ -64,7 +65,23 @@ function User() {
       setLoading(false);
     }
   };
+  function calculateAge(dateString) {
+    const birthDate = new Date(dateString);
+    const today = new Date();
 
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    // Check if the birthdate has not occurred yet this year
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    setAge(age);
+    // return age;
+  }
   useEffect(() => {
     // console.log("Auth is: ", auth);
 
@@ -90,6 +107,7 @@ function User() {
 
       d = [year, month, day].join("-");
       setDob(d);
+      calculateAge(auth.user.dob);
       console.log("date is:", d);
     }
   }, [auth?.user]);
@@ -281,6 +299,7 @@ function User() {
                       <h5 className="title">{auth?.user?.full_name}</h5>
                     </a>
                     <p className="description">{auth?.user?.description}</p>
+                    <p className="description">age : {age}</p>
                   </div>
                   {/* <p className="description text-center">
                   "Lamborghini Mercy <br></br>

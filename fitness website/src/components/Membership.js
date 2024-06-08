@@ -4,11 +4,12 @@ import { Button } from "./Button.js";
 import "./Membership.css";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom/cjs/react-router-dom.min.js";
+import { useAuth } from "./Context/Auth.js";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Membership() {
   let text = useRef(null);
-
+  let [auth, setAuth] = useAuth();
   useEffect(() => {
     gsap.to(text, {
       duration: 1,
@@ -73,15 +74,19 @@ export default function Membership() {
               </ul>
             </div>
             <div className="button--su">
-              <Link to="/userregistration">
-                <Button
-                  buttonStyle="btn--primary"
-                  buttonSize="btn--meduim"
-                  type="submit"
-                >
-                  Join Now
-                </Button>
-              </Link>
+              {auth?.user != null ? (
+                <Link to="/userregistration">
+                  <Button
+                    buttonStyle="btn--primary"
+                    buttonSize="btn--meduim"
+                    type="submit"
+                  >
+                    Join Now
+                  </Button>
+                </Link>
+              ) : (
+                ""
+              )}
             </div>
           </div>
 
@@ -134,15 +139,19 @@ export default function Membership() {
               </ul>
             </div>
             <div className="button--su">
-              <Link to="userregistration">
-                <Button
-                  buttonStyle="btn--primary"
-                  buttonSize="btn--meduim"
-                  type="submit"
-                >
-                  Join Now
-                </Button>
-              </Link>
+              {auth?.user != null ? (
+                <Link to="/userregistration">
+                  <Button
+                    buttonStyle="btn--primary"
+                    buttonSize="btn--meduim"
+                    type="submit"
+                  >
+                    Join Now
+                  </Button>
+                </Link>
+              ) : (
+                ""
+              )}
             </div>
           </div>
 
@@ -190,13 +199,19 @@ export default function Membership() {
               </ul>
             </div>
             <div className="button--su">
-              <Button
-                buttonStyle="btn--primary"
-                buttonSize="btn--meduim"
-                type="submit"
-              >
-                Join Now
-              </Button>
+              {auth?.user != null ? (
+                <Link to="/userregistration">
+                  <Button
+                    buttonStyle="btn--primary"
+                    buttonSize="btn--meduim"
+                    type="submit"
+                  >
+                    Join Now
+                  </Button>
+                </Link>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

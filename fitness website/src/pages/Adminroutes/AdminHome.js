@@ -139,14 +139,18 @@ const AdminHome = () => {
                 <ChartistGraph
                   data={{
                     labels: [
-                      (userscount.activeusers /
-                        (userscount.activeusers + userscount.nonactiveusers)) *
-                        100 +
-                        "%",
-                      (userscount.nonactiveusers /
-                        (userscount.activeusers + userscount.nonactiveusers)) *
-                        100 +
-                        "%",
+                      Math.floor(
+                        (userscount.activeusers /
+                          (userscount.activeusers +
+                            userscount.nonactiveusers)) *
+                          100
+                      ) + "%",
+                      Math.floor(
+                        (userscount.nonactiveusers /
+                          (userscount.activeusers +
+                            userscount.nonactiveusers)) *
+                          100
+                      ) + "%",
                     ],
                     series: [
                       (userscount.activeusers / userscount.activeusers +
@@ -182,48 +186,46 @@ const AdminHome = () => {
         {dietplans?.length > 0
           ? dietplans.map((value, index) => {
               return (
-                <Link
-                  class="candidate-list-box card mt-4"
-                  to={`/dietplan/${value.name}`}
-                >
+                <div class="candidate-list-box card mt-4">
                   <div class="p-4 card-body">
-                    <div class="align-items-center row">
-                      <div class="col-auto">
-                        <div class="candidate-list-images">
-                          {/* <a href="#">
+                    <Link to={`/dietplan/${value.name}`}>
+                      <div class="align-items-center row">
+                        <div class="col-auto">
+                          <div class="candidate-list-images">
+                            {/* <a href="#">
                     <img
                       src="https://bootdey.com/img/Content/avatar/avatar1.png"
                       alt=""
                       class="avatar-md img-thumbnail rounded-circle"
                     />
                   </a> */}
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-lg-10">
-                        <div class="candidate-list-content mt-3 mt-lg-0">
-                          <h5 class="fs-19 mb-0">
-                            <a class="primary-link" href="#">
-                              {value.name}
-                            </a>
-                          </h5>
-                          <p class="text-muted mb-2">
-                            {value.dietplan.morning.name}
-                          </p>
-                          <ul class="list-inline mb-0 text-muted">
-                            <li class="list-inline-item">
-                              <i class="mdi mdi-map-marker"></i>
-                              {value.dietplan.morning.description
-                                .split(" ")
-                                .slice(0, 40)
-                                .join(" ")}
-                            </li>
-                            {/* <li class="list-inline-item">
+                        <div class="col-lg-10">
+                          <div class="candidate-list-content mt-3 mt-lg-0">
+                            <h5 class="fs-19 mb-0">
+                              <a class="primary-link" href="#">
+                                {value.name}
+                              </a>
+                            </h5>
+                            <p class="text-muted mb-2">
+                              {value.dietplan.morning.name}
+                            </p>
+                            <ul class="list-inline mb-0 text-muted">
+                              <li class="list-inline-item">
+                                <i class="mdi mdi-map-marker"></i>
+                                {value.dietplan.morning.description
+                                  .split(" ")
+                                  .slice(0, 40)
+                                  .join(" ")}
+                              </li>
+                              {/* <li class="list-inline-item">
                       <i class="mdi mdi-wallet"></i> $650 / hours
                     </li> */}
-                          </ul>
+                            </ul>
+                          </div>
                         </div>
-                      </div>
-                      {/* <div class="col-lg-3">
+                        {/* <div class="col-lg-3">
                         <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
                           <span class="badge bg-soft-secondary fs-14 mt-1">
                             Leader
@@ -236,7 +238,9 @@ const AdminHome = () => {
                           </span>
                         </div>
                       </div> */}
-                    </div>
+                      </div>
+                    </Link>
+
                     <div class="favorite-icon">
                       <button className="btn btn-danger border-1">
                         <MdDelete
@@ -246,7 +250,7 @@ const AdminHome = () => {
                       </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               );
             })
           : ""}

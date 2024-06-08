@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const fitnessstat = require("./Controlers/fitnessstat.js");
 const dietplan = require("./Controlers/dietplan.js");
 const exercise = require("./Controlers/exercise.js");
+const comment = require("./Controlers/comment.js");
 // const cors = require("cors");
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.get("/user/logout", user);
 app.get("/getallusers", user);
 app.get("/getvotedusers", user);
 app.get("/getpublicvotedusers", user);
+
 app.post("/api/dietregister", dietplan);
 app.delete("/api/deletediet/:name", dietplan);
 app.get("/api/dietplans", dietplan);
@@ -64,6 +66,9 @@ app.get("/getexercise", exercise);
 app.put("/updateexercise/:id", exercise);
 app.delete("/deleteexercise/:id", exercise);
 app.get("/admin/user-performance", fitnessstat);
+app.get("/getcomments", comment);
+app.post("/postcomment", comment);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

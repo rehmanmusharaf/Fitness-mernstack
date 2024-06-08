@@ -21,6 +21,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dietpage from "./pages/Dietpage.jsx";
 import UsersStats from "./pages/UsersStats.js";
+import Testing from "./components/Testing.js";
 export default function App() {
   return (
     <div>
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/userregistration" exact component={Registrationpage} />
           <Route path="/login" exact component={Login} />
           <Route path="/dietplan/:plantype" exact component={Dietpage} />
+          <Route path="/testing" exact component={Testing} />
           <Route
             path="/activation/:activation_token"
             exact

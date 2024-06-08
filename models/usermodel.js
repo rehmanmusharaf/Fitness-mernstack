@@ -76,6 +76,16 @@ const userSchema = new mongoose.Schema({
   enddate: {
     type: Date,
   },
+  paymentproof: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
   resetPasswordToken: String,
   resetPasswordTime: Date,
 });

@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
+import { useAuth } from "../components/Context/Auth";
 const UsersStats = () => {
+  let [auth, setAuth] = useAuth();
   const { userId } = useParams();
   const [performanceData, setPerformanceData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [plantype, setPlantype] = useState("");
   const [gainupto, setGainupto] = useState("");
+  const [paymentproofurl, setPaymentproofurl] = useState("");
   const fetchPerformanceData = async (page = 1) => {
     try {
       const response = await axios.get(
@@ -22,6 +25,7 @@ const UsersStats = () => {
         setTotalPages(totalPages);
         setPlantype(response.data.plantype);
         setGainupto(response.data.gainupto);
+        setPaymentproofurl(response.data.url);
       } else {
       }
     } catch (error) {
@@ -91,6 +95,19 @@ const UsersStats = () => {
           </button>
         </div>
       </div>
+      <h3>Payment Proof</h3>
+      {paymentproofurl != "" ? (
+        <div className="text-center mb-1">
+          <img
+            src={`${paymentproofurl}`}
+            className="rounded card"
+            alt="..."
+            style={{ height: "auto", width: "250px" }}
+          />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

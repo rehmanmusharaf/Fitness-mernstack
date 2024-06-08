@@ -74,7 +74,7 @@ function Dashboard() {
   async function handleupdation(e) {
     try {
       e.preventDefault();
-      console.log(count, name);
+      // console.log(count, name);
       if (count < 0 || name == "") {
         toast.error("Please Write the Valid Input");
         return;
@@ -106,6 +106,7 @@ function Dashboard() {
         // });
         // console.log(data);
         toast.success("Performance Updated Successfully");
+        setClick(false);
       } else {
         toast.error("Something went wrong PLeasee reload");
       }

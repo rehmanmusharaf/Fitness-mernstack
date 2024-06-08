@@ -4,8 +4,11 @@ import { TweenMax, gsap } from "gsap";
 import Membership from "../components/Membership";
 import "./Plans.css";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useAuth } from "../components/Context/Auth";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 gsap.registerPlugin(ScrollTrigger);
 export default function Plans() {
+  let [auth, setAuth] = useAuth();
   let newv = useRef([]);
   useEffect(() => {
     TweenMax.to(newv.current, {
@@ -183,9 +186,15 @@ export default function Plans() {
               Fitnation memberships in minutes to train for the future. Our
               memberships are your shortcut to your fitness ambitions.
             </p>
-            <Button buttonStyle="btn--primary" buttonSize="btn--large">
-              Join Us{" "}
-            </Button>
+            {auth?.user == null ? (
+              <Link to="/userregistration">
+                <Button buttonStyle="btn--primary" buttonSize="btn--large">
+                  Join Us{" "}
+                </Button>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
@@ -241,9 +250,15 @@ export default function Plans() {
           </div>
         </div>
         <span className="memb--but">
-          <Button buttonStyle="btn--primary" buttonSize="btn--large">
-            Join Us{" "}
-          </Button>{" "}
+          {auth?.user == null ? (
+            <Link to="/userregistration">
+              <Button buttonStyle="btn--primary" buttonSize="btn--large">
+                Join Us{" "}
+              </Button>
+            </Link>
+          ) : (
+            ""
+          )}
         </span>
       </div>
       <Membership />
@@ -268,9 +283,15 @@ export default function Plans() {
         </div>
 
         <span className="memb--but">
-          <Button buttonStyle="btn--primary" buttonSize="btn--large">
-            Join Us{" "}
-          </Button>{" "}
+          {auth?.user ? (
+            <Link to="/userregistration">
+              <Button buttonStyle="btn--primary" buttonSize="btn--large">
+                Join Us{" "}
+              </Button>{" "}
+            </Link>
+          ) : (
+            ""
+          )}
         </span>
       </div>
     </>

@@ -195,7 +195,6 @@ router.get(
         const entryDate = new Date(entry.date);
         return entryDate >= sevenDaysAgo && entryDate <= today;
       });
-
       // Pagination logic
       const startIndex = (page - 1) * limit;
       const endIndex = page * limit;
@@ -210,6 +209,7 @@ router.get(
         page,
         plantype: user.plantype,
         gainupto: user.gainupto,
+        url: user.paymentproof.url,
         totalPages: Math.ceil(recentPerformance.length / limit),
         totalEntries: recentPerformance.length,
       });

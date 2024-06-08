@@ -18,11 +18,13 @@ const styles = {
   },
   form: {
     width: "100%",
-    background: "rgb(22 20 62)",
+    backgroundImage:
+      "url('https://images.unsplash.com/photo-1590487988256-9ed24133863e?q=80&w=1456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
     paddingTop: "63px",
     paddingLeft: "20px",
     paddingRight: "20px",
     margin: "0px auto",
+    backgroundSize: "cover",
   },
   formWrapper: {
     color: "#fff",
@@ -103,7 +105,20 @@ const RegistrationPage = () => {
     description: "",
     password: "",
   });
+  const [file, setFile] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setFile(reader.result);
+      }
+    };
+    // reader.readAsDataURL(e.target.files[0]);
+  };
   const [looseweight, setLooseweight] = useState(0);
   const [gainweight, setGainweight] = useState(0);
   const [plan, setPlan] = useState("");
@@ -115,6 +130,7 @@ const RegistrationPage = () => {
       [name]: value,
       gainupto: gainweight,
       looseupto: looseweight,
+      file: avatar,
     }));
     console.log(looseweight, " ", gainweight);
   };
@@ -134,10 +150,29 @@ const RegistrationPage = () => {
   const registeruser = async (e) => {
     e.preventDefault();
     try {
+      if (
+        formData.age < 0 ||
+        formData.currentweight < 0 ||
+        formData.dob > new Date() ||
+        formData.phone < 0 ||
+        formData.height < 0 ||
+        gainweight < 0 ||
+        looseweight < 0
+      ) {
+        toast.error("PLease Enter Valid Details!");
+        return;
+      }
       setLoading(true);
+      setFormData((prev) => {
+        return { ...prev, file: avatar };
+      });
+      // formData = { ...formData, /file: avatar };
       const response = await axios.post(
         `${process.env.REACT_APP_server}/api/create-user`,
-        formData
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
       if (response.data.success) {
         toast.success("Check Your Email to Verify!");
@@ -150,7 +185,7 @@ const RegistrationPage = () => {
       }
       // Handle success response
     } catch (error) {
-      toast.error(error?.message);
+      toast.error(error?.response?.data?.message);
       setLoading(false);
       console.error("There was an error registering the user!", error);
       // Handle error response
@@ -160,154 +195,194 @@ const RegistrationPage = () => {
   return (
     <>
       <div style={styles.wrapper}>
+        {/* <h1>Overlay Content</h1> */}
+        {/* <button onClick={onClose}>Close</button> */}
+
         <div style={styles.inner}>
-          <form style={styles.form} className="" onSubmit={registeruser}>
-            <h3 style={styles.h3}>Registration Form</h3>
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Name
-              </label>
-              <input
-                className="inputtag"
-                type="text"
-                name="full_name"
-                value={formData.full_name}
-                onChange={handleInputChange}
-                required
-                style={styles.formControl}
-              />
-            </div>
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Email
-              </label>
-              <input
-                className="inputtag"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                style={styles.formControl}
-              />
-            </div>
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Phone
-              </label>
-              <input
-                className="inputtag"
-                type="text"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                style={styles.formControl}
-              />
-            </div>
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Password
-              </label>
-              <input
-                className="inputtag"
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-                style={styles.formControl}
-              />
-            </div>
-            <label htmlFor="" className=" text-white ">
-              Choose Plan
-            </label>
-            <div className="d-flex flex-wrap justify-content-around ">
-              <div className="form-check ">
+          <form
+            style={styles.form}
+            className=" position-relative"
+            onSubmit={registeruser}
+          >
+            <div className="overlay position-absolute"></div>
+            <div className=" position-relative" style={{ zIndex: "1001" }}>
+              <h3 style={styles.h3}>Registration Form</h3>
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Name
+                </label>
                 <input
-                  className="form-check-input"
-                  type="radio"
-                  name="plantype"
-                  id="loseWeight"
-                  value="lose-weight"
-                  onClick={() => setPlan(1)}
+                  className="inputtag"
+                  type="text"
+                  name="full_name"
+                  value={formData.full_name}
                   onChange={handleInputChange}
                   required
+                  style={styles.formControl}
                 />
-                <label
-                  className="form-check-label text-white"
-                  htmlFor="loseWeight"
-                >
-                  Lose Weight
-                </label>
               </div>
-              <div className="form-check ms-1 ">
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Email
+                </label>
                 <input
-                  className="form-check-input"
-                  type="radio"
-                  name="plantype"
-                  id="gainWeight"
-                  value="gain-weight"
-                  onClick={() => setPlan(2)}
+                  className="inputtag"
+                  type="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleInputChange}
                   required
+                  style={styles.formControl}
                 />
-                <label
-                  className="form-check-label text-white"
-                  htmlFor="gainWeight"
-                >
-                  Gain Weight
-                </label>
               </div>
-              <div className="form-check">
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Phone
+                </label>
                 <input
-                  className="form-check-input"
-                  type="radio"
-                  name="plantype"
-                  id="both"
-                  value="fitness"
-                  onClick={() => setPlan(3)}
+                  className="inputtag"
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
                   onChange={handleInputChange}
                   required
+                  style={styles.formControl}
                 />
-                <label className="form-check-label text-white" htmlFor="both">
-                  Lose or Gain weight + proper Body Fitness
-                </label>
               </div>
-            </div>
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Weight in kg
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Password
+                </label>
+                <input
+                  className="inputtag"
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                  style={styles.formControl}
+                />
+              </div>
+              <label htmlFor="" className=" text-white ">
+                Choose Plan
               </label>
-              <input
-                className="inputtag"
-                type="number"
-                name="currentweight"
-                value={formData.currentweight}
-                onChange={handleInputChange}
-                required
-                style={styles.formControl}
-              />
-            </div>
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Height in Feet
-              </label>
-              <input
-                className="inputtag"
-                type="number"
-                name="height"
-                value={formData.height}
-                onChange={handleInputChange}
-                required
-                style={styles.formControl}
-              />
-            </div>
-            {plan === 3 ? (
-              <>
-                <h4 className=" text-white ">
-                  Please Type in one of the Input of reduce or gain weight!
-                </h4>
+              <div className="d-flex flex-wrap justify-content-around ">
+                <div className="form-check ">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="plantype"
+                    id="loseWeight"
+                    value="lose-weight"
+                    onClick={() => setPlan(1)}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label
+                    className="form-check-label text-white"
+                    htmlFor="loseWeight"
+                  >
+                    Lose Weight -$18
+                  </label>
+                </div>
+                <div className="form-check ms-1 ">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="plantype"
+                    id="gainWeight"
+                    value="gain-weight"
+                    onClick={() => setPlan(2)}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label
+                    className="form-check-label text-white"
+                    htmlFor="gainWeight"
+                  >
+                    Gain Weight -$25
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="plantype"
+                    id="both"
+                    value="fitness"
+                    onClick={() => setPlan(3)}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label className="form-check-label text-white" htmlFor="both">
+                    proper Body Fitness -$48
+                  </label>
+                </div>
+              </div>
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Weight in kg
+                </label>
+                <input
+                  className="inputtag"
+                  type="number"
+                  name="currentweight"
+                  value={formData.currentweight}
+                  onChange={handleInputChange}
+                  required
+                  style={styles.formControl}
+                />
+              </div>
+
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Height in Feet
+                </label>
+                <input
+                  className="inputtag"
+                  type="number"
+                  name="height"
+                  value={formData.height}
+                  onChange={handleInputChange}
+                  required
+                  style={styles.formControl}
+                />
+              </div>
+              {plan === 3 ? (
+                <>
+                  <h4 className=" text-white ">
+                    Please Type in one of the Input of reduce or gain weight!
+                  </h4>
+                  <div style={styles.formWrapper}>
+                    <label className="inputlabel" style={styles.inputlabel}>
+                      Reduce up to
+                    </label>
+                    <input
+                      className="inputtag"
+                      type="number"
+                      style={styles.formControl}
+                      value={looseweight}
+                      name="looseweight"
+                      onChange={planchangehandler}
+                      required
+                    />
+                  </div>
+                  <div style={styles.formWrapper}>
+                    <label className="inputlabel" style={styles.inputlabel}>
+                      Gain up to
+                    </label>
+                    <input
+                      className="inputtag"
+                      type="number"
+                      style={styles.formControl}
+                      value={gainweight}
+                      name="gainweight"
+                      onChange={planchangehandler}
+                      required
+                    />
+                  </div>
+                </>
+              ) : plan === 1 ? (
                 <div style={styles.formWrapper}>
                   <label className="inputlabel" style={styles.inputlabel}>
                     Reduce up to
@@ -316,12 +391,13 @@ const RegistrationPage = () => {
                     className="inputtag"
                     type="number"
                     style={styles.formControl}
-                    value={looseweight}
                     name="looseweight"
+                    value={looseweight}
                     onChange={planchangehandler}
                     required
                   />
                 </div>
+              ) : plan === 2 ? (
                 <div style={styles.formWrapper}>
                   <label className="inputlabel" style={styles.inputlabel}>
                     Gain up to
@@ -336,77 +412,82 @@ const RegistrationPage = () => {
                     required
                   />
                 </div>
-              </>
-            ) : plan === 1 ? (
-              <div style={styles.formWrapper}>
-                <label className="inputlabel" style={styles.inputlabel}>
-                  Reduce up to
-                </label>
-                <input
-                  className="inputtag"
-                  type="number"
-                  style={styles.formControl}
-                  name="looseweight"
-                  value={looseweight}
-                  onChange={planchangehandler}
-                  required
-                />
-              </div>
-            ) : plan === 2 ? (
-              <div style={styles.formWrapper}>
-                <label className="inputlabel" style={styles.inputlabel}>
-                  Gain up to
-                </label>
-                <input
-                  className="inputtag"
-                  type="number"
-                  style={styles.formControl}
-                  value={gainweight}
-                  name="gainweight"
-                  onChange={planchangehandler}
-                  required
-                />
-              </div>
-            ) : null}
+              ) : null}
 
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                DOB:
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  DOB:
+                </label>
+                <input
+                  type="date"
+                  id="birthDate"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleInputChange}
+                  className="inputtag text-white "
+                  style={styles.formControl}
+                  required
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="26"
+                  height="26"
+                  fill="currentColor"
+                  class="bi bi-calendar-date"
+                  viewBox="0 0 16 16"
+                  style={{
+                    position: "relative",
+                    left: "-3%",
+                    top: "-15px",
+                    zIndex: "-1",
+                  }}
+                >
+                  <path d="M6.445 11.688V6.354h-.633A13 13 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23" />
+                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                </svg>
+              </div>
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Description
+                </label>
+                <textarea
+                  style={{ ...styles.formControl, height: "69px" }}
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  required
+                ></textarea>
+              </div>
+              {/* <div style={styles.formWrapper}> */}
+              <label
+                className="inputlabel w-100 text-white"
+                style={styles.inputlabel}
+              >
+                Please Upload Picture Of Your Payment Transaction
               </label>
               <input
-                type="date"
-                id="birthDate"
-                name="dob"
-                value={formData.dob}
-                onChange={handleInputChange}
-                className="inputtag text-white "
-                style={styles.formControl}
-                required
-              />
-            </div>
-            <div style={styles.formWrapper}>
-              <label className="inputlabel" style={styles.inputlabel}>
-                Description
-              </label>
-              <textarea
                 style={{ ...styles.formControl, height: "69px" }}
                 name="description"
-                value={formData.description}
-                onChange={handleInputChange}
+                type="file"
+                className=" border-0"
+                accept=".jpg,.jpeg,.png"
+                onChange={handleFileInputChange}
                 required
-              ></textarea>
+              />
+              {/* </div> */}
+
+              {loading ? (
+                <button style={styles.button} className=" mb-2 ">
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              ) : (
+                <button style={styles.button} className=" mb-2 ">
+                  Submit
+                </button>
+              )}
             </div>
-            {loading ? (
-              <button style={styles.button} className=" mb-2 ">
-                <div class="spinner-border" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-              </button>
-            ) : (
-              <button style={styles.button} className=" mb-2 ">
-                Submit
-              </button>
-            )}
           </form>
           <div style={styles.imageHolder} className=" d-none ">
             <img

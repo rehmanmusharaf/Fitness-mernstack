@@ -4,7 +4,10 @@ const axios = require("axios");
 const usermodel = require("../models/usermodel");
 const router = express.Router();
 const FitnessStat = require("../models/fitnessstatmodel.js");
+const cloudinary = require("../utils/coudinary.js");
+// const cloudinary = require("../utils/cloudinary.js");
 
+const fs = require("fs");
 // const ErrorHandler = require("../utils/Errorhandler.js");
 // const catchasyncerr = require("../middleware/catchAsyncError.js");
 var jwt = require("jsonwebtoken");
@@ -16,110 +19,210 @@ const {
   isAdminAuthenticated,
 } = require("../middleware/auth.js");
 
+function deletefile(filename) {
+  // console.log("to delete file filename is: ", filename);
+  fs.unlink(`uploads/${filename}`, (err) => {
+    if (err) {
+      return "Image Not Deleted!";
+    }
+    // console.log('File deleted successfully');
+  });
+  return "image Deleted Successfully;";
+}
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     let destination = cb(null, "./uploads");
+//     // console.log("destination is : ", destination);
+//   },
+
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+//     cb(null, uniqueSuffix + "-" + file.originalname);
+//   },
+// });
+// const upload = multer({ storage: storage });
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    let destination = cb(null, "./uploads");
-    console.log("destination is : ", destination);
+    cb(null, "./uploads");
   },
-
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + "-" + file.originalname);
   },
 });
+
 const upload = multer({ storage: storage });
 
-// User Registration
-router.post("/api/create-user", async (req, res, next) => {
+async function uploadImages(file) {
+  let image = {};
   try {
-    // console.log("API End Point Hit!");
-    console.log("req.body is: ", req.body);
-    let {
-      full_name,
-      email,
-      phone,
-      plantype,
-      gainupto,
-      looseupto,
-      currentweight,
-      height,
-      dob,
-      description,
-      password,
-    } = req.body;
-    gainupto = Number(gainupto);
-    looseupto = Number(looseupto);
-    console.log(gainupto, looseupto);
-    if (
-      !full_name ||
-      !email ||
-      !phone ||
-      !(gainupto || looseupto) ||
-      !plantype ||
-      !currentweight ||
-      !height ||
-      !dob ||
-      !description ||
-      !password
-    ) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Please fill out the complete form" });
-    }
-
-    const existingUser = await usermodel.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(409)
-        .json({ success: false, message: "User already exists" });
-    }
-
-    const newUser = {
-      full_name,
-      email,
-      phone,
-      plantype,
-      gainupto,
-      looseupto,
-      currentweight,
-      height,
-      dob,
-      description,
-      password,
+    // for (const file of files) {
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload(file.path, (err, result) => {
+        if (err) {
+          // console.log("error is:", err);
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+    console.log("result is:", result);
+    image = {
+      public_id: result.public_id,
+      url: result.secure_url,
     };
-    // Save the user
-    //   await newUser.save();
+    // images.push(image);
 
-    // Create activation token
-    const activation_token = await createActivationToken(newUser);
-    if (!activation_token) {
-      return res
-        .status(500)
-        .json({ success: false, message: "Server is experiencing problems" });
+    // deletefile(result.originalname);
+    // }
+    // console.log("images is", images);
+    // Now you can work with the 'images' array after all uploads are done
+    return image;
+  } catch (err) {
+    console.error("error is:", err);
+    return [];
+  }
+}
+async function deletecloudinaryimage(publicId) {
+  cloudinary.uploader.destroy(publicId, (error, result) => {
+    if (error) {
+      console.error("Error deleting file:", error);
+    } else {
+      console.log("File deleted:", result);
     }
-    const activationUrl = `${process.env.REACT_APP_URL}/activation/${activation_token}`;
+  });
+}
+
+// User Registration
+router.post(
+  "/api/create-user",
+  upload.single("file"),
+  async (req, res, next) => {
     try {
-      await sendMail({
-        email: newUser.email,
-        subject: "Activate Your Account",
-        message: `Hello ${newUser.full_name}, please click the link below to activate your account: ${activationUrl}`,
-      });
-      res.status(201).json({
-        success: true,
-        message: "Please check your email to activate your account",
-      });
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          message: "File upload failed, please try again",
+        });
+      }
+
+      console.log("req.file is: ", req.file);
+      console.log("req.filename is: ", req.file.filename);
+
+      console.log("-------------------");
+      // console.log("API End Point Hit!");
+      console.log("req.body is: ", req.body);
+      let {
+        full_name,
+        email,
+        phone,
+        plantype,
+        gainupto,
+        looseupto,
+        currentweight,
+        height,
+        dob,
+        description,
+        password,
+      } = req.body;
+
+      gainupto = Number(gainupto);
+      looseupto = Number(looseupto);
+      console.log(gainupto, looseupto);
+      if (
+        !full_name ||
+        !email ||
+        !phone ||
+        !(gainupto || looseupto) ||
+        !plantype ||
+        !currentweight ||
+        !height ||
+        !dob ||
+        !description ||
+        !password
+      ) {
+        deletefile(req.file.filename);
+        return res.status(400).json({
+          success: false,
+          message: "Please fill out the complete form",
+        });
+      }
+
+      const existingUser = await usermodel.findOne({ email });
+      if (existingUser) {
+        deletefile(req.file.filename);
+        return res
+          .status(409)
+          .json({ success: false, message: "User already exists" });
+      }
+      // let file1 = ;
+      // console.log("File1 is:", req.file);
+      let images = await uploadImages(req.file);
+      // console.log("Images i: ", images);
+      if (images.length == 0) {
+        // images.forEach((element) => {
+        deletecloudinaryimage(images.public_id);
+        // });
+        deletefile(req.file.filename);
+      }
+      const newUser = {
+        full_name,
+        email,
+        phone,
+        plantype,
+        gainupto,
+        looseupto,
+        currentweight,
+        height,
+        dob,
+        description,
+        password,
+        paymentproof: images,
+      };
+
+      // Save the user
+      //   await newUser.save();
+
+      // Create activation token
+      const activation_token = await createActivationToken(newUser);
+      if (!activation_token) {
+        deletecloudinaryimage(images.public_id);
+        return res
+          .status(500)
+          .json({ success: false, message: "Server is experiencing problems" });
+      }
+      const activationUrl = `${process.env.REACT_APP_URL}/activation/${activation_token}`;
+      try {
+        await sendMail({
+          email: newUser.email,
+          subject: "Activate Your Account",
+          message: `Hello ${newUser.full_name}, please click the link below to activate your account: ${activationUrl}`,
+        });
+        deletefile(req.file.filename);
+        res.status(201).json({
+          success: true,
+          message: "Please check your email to activate your account",
+        });
+      } catch (error) {
+        console.log(error);
+        deletecloudinaryimage(images.public_id);
+        deletefile(req.file.filename);
+        return res
+          .status(500)
+          .json({ success: false, message: error.message, error });
+      }
     } catch (error) {
-      console.log(error);
+      deletefile(req.file.filename);
+      deletecloudinaryimage(images.public_id);
       return res
         .status(500)
         .json({ success: false, message: error.message, error });
     }
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, message: error.message, error });
   }
-});
+);
 
 async function createActivationToken(user) {
   try {
@@ -135,12 +238,14 @@ async function createActivationToken(user) {
 // Account Activation
 router.post("/api/activation", async (req, res, next) => {
   try {
-    console.log("activation end point hit");
+    // console.log("activation end point hit");
     const { activation_token } = req.body;
     // console.log(activation_token);
     const newUser = jwt.verify(activation_token, process.env.JWT_SECRET_KEY);
+    console.log("new user is:", newUser);
     // console.log("aftre hhit activation new User", newUser);
     if (!newUser) {
+      // deletecloudinaryimage(newUser.paymentproof.public_id);
       return res
         .status(400)
         .json({ success: false, message: "Invalid activation token" });
@@ -158,6 +263,7 @@ router.post("/api/activation", async (req, res, next) => {
       dob,
       description,
       password,
+      paymentproof,
     } = newUser;
     // console.log(
     //   full_name,
@@ -182,6 +288,7 @@ router.post("/api/activation", async (req, res, next) => {
       dob,
       description,
       password,
+      paymentproof,
     });
 
     await result.save();
@@ -192,6 +299,7 @@ router.post("/api/activation", async (req, res, next) => {
       user: result,
     });
   } catch (error) {
+    deletecloudinaryimage(newUser.paymentproof.public_id);
     res.status(500).json({ success: false, message: error.message, error });
   }
 });
