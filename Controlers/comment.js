@@ -23,6 +23,7 @@ router.get("/getcomments", async (req, res) => {
   const limit = parseInt(req.query.limit) || 5; // Default to 5 comments per page if not specified
   try {
     const comments = await Comment.find()
+      .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
     const totalComments = await Comment.countDocuments();

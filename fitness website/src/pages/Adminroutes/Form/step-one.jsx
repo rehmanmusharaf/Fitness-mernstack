@@ -70,7 +70,7 @@ export class StepOne extends React.Component {
               onChange={this.handleRadioChange}
             />
             <label className="form-check-label ps-0" htmlFor="inlineRadio3">
-              Loose|Gain + Body Building Weight Diet
+              Proper Body Fitness
             </label>
           </div>
         </div>

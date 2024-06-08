@@ -58,7 +58,10 @@ const AdminHome = () => {
       // Check if the request was successful
       if (response.data.success) {
         toast.success("Diet Plan Deleted Successfully");
-        getDietPlans();
+        // getDietPlans();
+        setDietplans((prev) => {
+          return prev.filter((value) => value.name !== name);
+        });
         // console.log("Diet Plan Deleted Successfully");
         // Optionally, you can perform any additional actions after successful deletion
       } else {

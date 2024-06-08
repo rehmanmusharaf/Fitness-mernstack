@@ -35,6 +35,7 @@ export class StepFour extends React.Component {
           );
           if (data.success) {
             toast.success("Diet Plan Added Successfully");
+            window.location.reload("/");
           } else {
             toast.error(data.message);
           }

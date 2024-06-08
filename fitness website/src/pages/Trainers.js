@@ -158,7 +158,7 @@ export default function Trainers() {
           >
             <img
               className="side-images"
-              src="https://1-life.ca/wp-content/uploads/2016/11/One-Life-Kelowna-gym-personal-trainer-benefits.jpg"
+              src="https://t4.ftcdn.net/jpg/03/33/91/97/360_F_333919715_R1mDUWPgwB2CRvSCNnvnmtn64gPY40ZL.jpg"
               alt="choose personal trainer by Fitnation"
             />
             <div className="welcome--headline">
@@ -207,9 +207,9 @@ export default function Trainers() {
           </div>
         </div>
         <span className="memb--but">
-          <Button buttonStyle="btn--primary" buttonSize="btn--large">
-            View Personal Trainers{" "}
-          </Button>{" "}
+          {/* <Button buttonStyle="btn--primary" buttonSize="btn--large">
+            {/* View Personal Trainers{" "} */}
+          {/* </Button>{" "} */}
         </span>
       </div>
     </>

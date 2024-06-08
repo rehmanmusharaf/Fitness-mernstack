@@ -283,7 +283,7 @@ export default function Plans() {
         </div>
 
         <span className="memb--but">
-          {auth?.user ? (
+          {auth?.user == null ? (
             <Link to="/userregistration">
               <Button buttonStyle="btn--primary" buttonSize="btn--large">
                 Join Us{" "}

@@ -37,7 +37,7 @@ export default function App() {
           <Route path="/userregistration" exact component={Registrationpage} />
           <Route path="/login" exact component={Login} />
           <Route path="/dietplan/:plantype" exact component={Dietpage} />
-          <Route path="/testing" exact component={Testing} />
+          {/* <Route path="/testing" exact component={Testing} /> */}
           <Route
             path="/activation/:activation_token"
             exact
