@@ -12,6 +12,8 @@ const UsersStats = () => {
   const [plantype, setPlantype] = useState("");
   const [gainupto, setGainupto] = useState("");
   const [paymentproofurl, setPaymentproofurl] = useState("");
+  const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
   const fetchPerformanceData = async (page = 1) => {
     try {
       const response = await axios.get(
@@ -27,6 +29,8 @@ const UsersStats = () => {
         setPlantype(response.data.plantype);
         setGainupto(response.data.gainupto);
         setPaymentproofurl(response?.data?.url);
+        setDescription(response?.data?.description);
+        setName(response?.data?.name);
       } else {
       }
     } catch (error) {
@@ -48,8 +52,27 @@ const UsersStats = () => {
   }, [currentPage]);
 
   return (
-    <div>
-      <h3 className="text-center" style={{ marginTop: "100px" }}>
+    <div style={{ marginTop: "100px" }}>
+      <h3>user Detail</h3>
+      {name != "" ? (
+        <>
+          <p className=" mb-1">
+            <span className="">Name: </span> {name}
+          </p>
+          <p className=" mb-1">
+            <span className="">Description: </span>
+            {description}
+          </p>
+          <p className=" mb-1">
+            <span className="">Plan Type: </span>
+            {plantype}
+          </p>
+        </>
+      ) : (
+        ""
+      )}
+
+      <h3 className="text-center">
         Last {performanceData?.length} Days Progress
       </h3>
       <div className="last-7days-performance">

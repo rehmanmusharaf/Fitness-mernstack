@@ -304,6 +304,8 @@ router.get(
         success: true,
         userperformance: fitnessarray,
         page,
+        name: user.full_name,
+        description: user.description,
         plantype: user.plantype,
         gainupto: user.gainupto,
         url: user.paymentproof.url,

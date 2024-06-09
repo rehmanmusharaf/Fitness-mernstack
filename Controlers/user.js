@@ -5,6 +5,8 @@ const usermodel = require("../models/usermodel");
 const router = express.Router();
 const FitnessStat = require("../models/fitnessstatmodel.js");
 const cloudinary = require("../utils/coudinary.js");
+const bcrypt = require("bcryptjs");
+
 // const cloudinary = require("../utils/cloudinary.js");
 
 const fs = require("fs");
@@ -576,6 +578,127 @@ router.put("/updateprofile", isAuthenticated, async (req, res) => {
     res.status(500).json({
       success: false,
       error: "An error occurred while updating the profile.",
+    });
+  }
+});
+
+// / User Registration
+router.put("/api/changepassword", async (req, res, next) => {
+  try {
+    console.log("API endpoint hit for change password");
+    let { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill out the complete form",
+      });
+    }
+
+    const existingUser = await usermodel.findOne({ email });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+
+    const updateduser = {
+      email,
+      password,
+    };
+
+    const activation_token = await createActivationToken(updateduser);
+    if (!activation_token) {
+      return res.status(500).json({
+        success: false,
+        message: "Server is experiencing problems",
+      });
+    }
+
+    const activationUrl = `${process.env.REACT_APP_URL}/updatepassword/${activation_token}`;
+    try {
+      await sendMail({
+        email: updateduser.email,
+        subject: "Activate Your Account",
+        message: `Hello, please click the link below to activate your account: ${activationUrl}`,
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "Please check your email to activate your account",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to send activation email",
+        error,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error,
+    });
+  }
+});
+
+async function createActivationToken(user) {
+  try {
+    const key = await jwt.sign(user, process.env.JWT_SECRET_KEY, {
+      expiresIn: "5m",
+    });
+    return key;
+  } catch (error) {
+    console.error("Error creating activation token:", error);
+    return false;
+  }
+}
+
+// Account Activation
+router.put("/api/passwordchange", async (req, res, next) => {
+  try {
+    console.log("Activation endpoint hit");
+    const { activation_token } = req.body;
+
+    const updatedUser = jwt.verify(
+      activation_token,
+      process.env.JWT_SECRET_KEY
+    );
+
+    if (!updatedUser) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid activation token",
+      });
+    }
+
+    const { email, password } = updatedUser;
+    let hashedpassword = await bcrypt.hash(password, 10);
+
+    const updateduser = await usermodel
+      .findOneAndUpdate({ email }, { password: hashedpassword }, { new: true })
+      .select("+password");
+
+    if (!updateduser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      user: updateduser,
+    });
+  } catch (error) {
+    console.error("Error during password change:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error,
     });
   }
 });

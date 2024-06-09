@@ -61,6 +61,8 @@ app.put("/activateuseracount", user);
 app.put("/deactivateuseracount", user);
 app.get("/getallusers", user);
 app.put("/updateprofile", user);
+app.put("/api/changepassword", user);
+app.put("/api/passwordchange", user);
 app.post("/registerexercise", exercise);
 app.get("/getexercise", exercise);
 app.put("/updateexercise/:id", exercise);

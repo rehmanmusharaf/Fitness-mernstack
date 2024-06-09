@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 // Inline styles converted from provided CSS
 const styles = {
   wrapper: {
@@ -98,6 +97,7 @@ const RegistrationPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    confirmpassword: "",
   });
   const history = useHistory();
   const [loading, setLoading] = useState(false);
@@ -112,21 +112,24 @@ const RegistrationPage = () => {
   const registeruser = async (e) => {
     e.preventDefault();
     try {
+      if (formData.password != formData.confirmpassword) {
+        toast.error("Password Doesn't Match!");
+        return;
+      }
       setLoading(true);
-      const response = await axios.post(
-        `${process.env.REACT_APP_server}/api/login`,
+      const response = await axios.put(
+        `${process.env.REACT_APP_server}/api/changepassword`,
         formData,
         { withCredentials: true }
       );
       if (response.data.success) {
-        toast.success("Login Successfully!");
+        toast.success("Please Check Your Email to Verify!");
         setLoading(false);
         // history.push("/");
-        window.location.href = "/";
-
+        // window.location.href = "/";
         // console.log(response.data);
       } else {
-        toast.error("Invalid Credentials");
+        toast.error("Email Not Found");
         setLoading(false);
         // console.log(response.data);
       }
@@ -151,7 +154,7 @@ const RegistrationPage = () => {
           >
             <div className="overlay position-absolute"></div>
             <div className=" position-relative" style={{ zIndex: "1001" }}>
-              <h3 style={styles.h3}>Login Form</h3>
+              <h3 style={styles.h3}>Forget Password Form</h3>
 
               <div style={styles.formWrapper}>
                 <label className="inputlabel" style={styles.inputlabel}>
@@ -169,7 +172,7 @@ const RegistrationPage = () => {
               </div>
               <div style={styles.formWrapper}>
                 <label className="inputlabel" style={styles.inputlabel}>
-                  Password
+                  New Password
                 </label>
                 <input
                   className="inputtag"
@@ -181,8 +184,19 @@ const RegistrationPage = () => {
                   style={styles.formControl}
                 />
               </div>
-              <div>
-                <Link to="/forgetpassword">Forget Password</Link>
+              <div style={styles.formWrapper}>
+                <label className="inputlabel" style={styles.inputlabel}>
+                  Confirm New Password
+                </label>
+                <input
+                  className="inputtag"
+                  type="password"
+                  name="confirmpassword"
+                  value={formData.confirmpassword}
+                  onChange={handleInputChange}
+                  required
+                  style={styles.formControl}
+                />
               </div>
 
               {loading ? (

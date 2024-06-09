@@ -213,7 +213,7 @@ export const gallery = [
   },
   {
     image:
-      "https://www.vfmii.com/medlib7/VIZ_C4513583_photo/0/76/558/76558624/76558624.jpg",
+      "https://www.coursesonline.co.uk/wp-content/uploads/image-of-online-fitness.jpg",
   },
   {
     image:

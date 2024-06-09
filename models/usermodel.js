@@ -99,6 +99,8 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// this.password = await bcrypt.hash(this.password, 10);
+
 // Generate JWT token
 userSchema.methods.getJwtToken = async function () {
   try {

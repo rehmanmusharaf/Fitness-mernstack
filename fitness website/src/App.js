@@ -16,11 +16,13 @@ import AdminPage from "./pages/Adminroutes/AdminPage";
 import UserProtectedRoute from "./components/Routes/UserProtectedRoute.jsx";
 import AdminProtectedRoute from "./components/Routes/AdminProtectedRoute.jsx";
 import Activationpage from "./components/pages/ActivationPage.jsx";
+import Changepasswordpage from "./components/pages/Changepasswordpage.jsx";
 import Login from "./pages/Login.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dietpage from "./pages/Dietpage.jsx";
 import UsersStats from "./pages/UsersStats.js";
+import Forgetpage from "./components/Forgetpage.js";
 import Testing from "./components/Testing.js";
 export default function App() {
   return (
@@ -38,10 +40,16 @@ export default function App() {
           <Route path="/login" exact component={Login} />
           <Route path="/dietplan/:plantype" exact component={Dietpage} />
           <Route path="/testing" exact component={Testing} />
+          <Route path="/forgetpassword" exact component={Forgetpage} />
           <Route
             path="/activation/:activation_token"
             exact
             component={Activationpage}
+          />
+          <Route
+            path="/updatepassword/:activation_token"
+            exact
+            component={Changepasswordpage}
           />
           {/* <Route
             path="/admindashboard"

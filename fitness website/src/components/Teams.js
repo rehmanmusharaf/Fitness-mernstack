@@ -73,8 +73,7 @@ export default function Teams() {
           <h2>Private Coaching</h2>
           <h1>Meet Our Trainers </h1>
           <p>
-            All our personal trainers have over 30 years of experience combined.
-            Each trainer specializes in strength and monbility workouts.
+            All our personal trainers have over 20 years of experience combined.
           </p>
         </div>
         <div className="team--text">
@@ -94,7 +93,7 @@ export default function Teams() {
         >
           <p>Usman Samir</p>
           <img
-            src="https://res-console.cloudinary.com/dgaw5qfuo/thumbnails/v1/image/upload/v1716320201/V2hhdHNBcHBfSW1hZ2VfMjAyNC0wNS0yMl9hdF8xMi4zMy40Nl9BTV8xX3o0d2h0dw==/drilldown"
+            src="https://res.cloudinary.com/dgaw5qfuo/image/upload/v1716320201/WhatsApp_Image_2024-05-22_at_12.33.46_AM_1_z4whtw.jpg"
             alt="Trainer Sara"
             className="team--image"
           />
