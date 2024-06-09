@@ -372,7 +372,10 @@ router.get("/user/logout", (req, res, next) => {
     res.cookie("token", null, {
       expires: new Date(0),
       httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Set secure flag to true in production
+      sameSite: "None", // Necessary for cross-site requests
     });
+    // httpOnly: true,
     res
       .status(200)
       .json({ success: true, messaage: "User Logout Successfully!" });
