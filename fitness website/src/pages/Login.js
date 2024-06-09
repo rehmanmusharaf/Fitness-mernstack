@@ -7,7 +7,7 @@ const styles = {
   wrapper: {
     minHeight: "70vh",
     display: "flex",
-    background: "white",
+    background: "black",
     backgroundSize: "cover",
     marginTop: "85px",
   },
@@ -78,10 +78,11 @@ const styles = {
     maxHeight: "550px",
   },
   h3: {
-    fontSize: "35px",
+    fontSize: "44px",
     textAlign: "center",
     marginBottom: "38px",
-    color: "#f78582",
+    color: "white",
+    fontFamily: '"Jacquard 12", system-ui',
   },
   inputcontainer: {},
   inputlabel: {

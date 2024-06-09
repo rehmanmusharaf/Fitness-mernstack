@@ -61,6 +61,7 @@ export default function Features() {
             <p className="feature--item">
               {" "}
               <i className="fas fa-check-circle"></i>Wearable Device Integration
+              -Soon
             </p>
           </div>
         </div>

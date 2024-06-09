@@ -171,37 +171,114 @@ router.get("/api/user-performance", isAuthenticated, async (req, res) => {
   }
   // res.json(recentPerformance);
 });
+// router.get(
+//   "/admin/user-performance",
+//   isAdminAuthenticated,
+//   async (req, res) => {
+//     try {
+//       console.log("Api End Point hit");
+//       console.log("query from user", req.query);
+//       const { id } = req.query;
+//       const user = await usermodel.findById(id);
+//       if (!user) {
+//         return res
+//           .status(400)
+//           .json({ success: false, message: "User with this id is not found" });
+//       }
+//       const page = parseInt(req.query.page) || 1; // Get page from query string, default to 1 if not provided
+//       const limit = parseInt(req.query.limit) || 7; // Get limit from query string, default to 10 if not provided
+//       console.log("query limit is:", req.query.limit);
+//       const today = new Date();
+//       const sevenDaysAgo = new Date();
+//       sevenDaysAgo.setDate(today.getDate() - 7);
+//       const fitnessdata = await FitnessStat.findOne({ userid: id });
+//       const recentPerformance = fitnessdata.stat.filter((entry) => {
+//         const entryDate = new Date(entry.date);
+//         return entryDate >= sevenDaysAgo && entryDate <= today;
+//       });
+//       // Pagination logic
+//       const startIndex = (page - 1) * limit;
+//       const endIndex = page * limit;
+//       const paginatedPerformance = recentPerformance.slice(
+//         startIndex,
+//         endIndex
+//       );
+//       console.log(page,)
+//       res.status(200).json({
+//         success: true,
+//         userperformance: paginatedPerformance,
+//         page,
+//         plantype: user.plantype,
+//         gainupto: user.gainupto,
+//         url: user.paymentproof.url,
+//         totalPages: Math.ceil(recentPerformance.length / limit),
+//         totalEntries: recentPerformance.length,
+//       });
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: error.message, error });
+//     }
+//   }
+// );
+
 router.get(
   "/admin/user-performance",
   isAdminAuthenticated,
   async (req, res) => {
     try {
-      console.log("Api End Point hit");
-      console.log("query from user", req.query);
+      console.log("API End Point hit");
+      console.log("Query from user:", req.query);
+
       const { id } = req.query;
+      if (!id) {
+        return res
+          .status(400)
+          .json({ success: false, message: "ID is required" });
+      }
+
       const user = await usermodel.findById(id);
       if (!user) {
         return res
           .status(400)
-          .json({ success: false, message: "User with this id is not found" });
+          .json({ success: false, message: "User with this ID is not found" });
       }
-      const page = parseInt(req.query.page) || 1; // Get page from query string, default to 1 if not provided
-      const limit = parseInt(req.query.limit) || 10; // Get limit from query string, default to 10 if not provided
+
+      const page = parseInt(req.query.page) || 1;
+      // const page = 2;
+
+      const limit = parseInt(req.query.limit) || 7;
+
+      console.log("Page:", page);
+      console.log("Limit:", limit);
+
       const today = new Date();
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(today.getDate() - 7);
+
       const fitnessdata = await FitnessStat.findOne({ userid: id });
+      if (!fitnessdata) {
+        return res.status(400).json({
+          success: false,
+          message: "No fitness data found for this user",
+        });
+      }
+
       const recentPerformance = fitnessdata.stat.filter((entry) => {
         const entryDate = new Date(entry.date);
         return entryDate >= sevenDaysAgo && entryDate <= today;
       });
-      // Pagination logic
+
+      console.log("Recent Performance Length:", recentPerformance.length);
+
       const startIndex = (page - 1) * limit;
       const endIndex = page * limit;
+
+      console.log("Start Index:", startIndex);
+      console.log("End Index:", endIndex);
       const paginatedPerformance = recentPerformance.slice(
         startIndex,
         endIndex
       );
+      // totalPages: Math.ceil(recentPerformance.length / limit),
 
       res.status(200).json({
         success: true,
@@ -210,10 +287,11 @@ router.get(
         plantype: user.plantype,
         gainupto: user.gainupto,
         url: user.paymentproof.url,
-        totalPages: Math.ceil(recentPerformance.length / limit),
+        totalPages: Math.ceil(fitnessdata.stat.length / limit),
         totalEntries: recentPerformance.length,
       });
     } catch (error) {
+      console.error("Error:", error);
       res.status(500).json({ success: false, message: error.message, error });
     }
   }

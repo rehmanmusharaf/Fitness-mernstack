@@ -10,6 +10,8 @@ const styles = {
     background: "white",
     backgroundSize: "cover",
     marginTop: "85px",
+    backgroundImage:
+      "url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
   },
   inner: {
     minWidth: "850px",
@@ -18,8 +20,8 @@ const styles = {
   },
   form: {
     width: "100%",
-    backgroundImage:
-      "url('https://images.unsplash.com/photo-1590487988256-9ed24133863e?q=80&w=1456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+    // backgroundImage:
+    //   "url('https://images.unsplash.com/photo-1590487988256-9ed24133863e?q=80&w=1456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
     paddingTop: "63px",
     paddingLeft: "20px",
     paddingRight: "20px",
@@ -79,10 +81,12 @@ const styles = {
     maxHeight: "550px",
   },
   h3: {
-    fontSize: "35px",
+    fontSize: "44px",
     textAlign: "center",
     marginBottom: "38px",
-    color: "#f78582",
+    color: "white",
+    fontFamily: '"Jacquard 12", system-ui',
+    // systemUi,
   },
   inputcontainer: {},
   inputlabel: {
@@ -459,6 +463,13 @@ const RegistrationPage = () => {
                 ></textarea>
               </div>
               {/* <div style={styles.formWrapper}> */}
+              <span>Acount Detail : </span>
+              <p className="text-white mb-0">
+                <b>Hbl</b> <br />
+                Acount Title: Umer Nazir
+              </p>
+              <p className=" text-white mb-0"> Acount Number: 50517992131103</p>
+              <br />
               <label
                 className="inputlabel w-100 text-white"
                 style={styles.inputlabel}
@@ -469,7 +480,7 @@ const RegistrationPage = () => {
                 style={{ ...styles.formControl, height: "69px" }}
                 name="description"
                 type="file"
-                className=" border-0"
+                className=" border-0 mb-0"
                 accept=".jpg,.jpeg,.png"
                 onChange={handleFileInputChange}
                 required

@@ -21,11 +21,12 @@ const UsersStats = () => {
       if (response.data.success) {
         console.log("data", response.data);
         const { userperformance, totalPages } = response.data;
+        console.log("total pages", totalPages);
         setPerformanceData(userperformance);
         setTotalPages(totalPages);
         setPlantype(response.data.plantype);
         setGainupto(response.data.gainupto);
-        setPaymentproofurl(response.data.url);
+        setPaymentproofurl(response?.data?.url);
       } else {
       }
     } catch (error) {
@@ -95,8 +96,17 @@ const UsersStats = () => {
           </button>
         </div>
       </div>
+      {/* {paymentproofurl == undefined ? (
+        <h1>Payment Proof NotFound</h1>
+      ) : (
+        <h1>Payment Proof Found</h1>
+      )} */}
       <h3>Payment Proof</h3>
-      {paymentproofurl != "" ? (
+      {paymentproofurl == "" ||
+      paymentproofurl == null ||
+      paymentproofurl == undefined ? (
+        <h4 className=" text-decoration-underline">No Payment Proof Found</h4>
+      ) : (
         <div className="text-center mb-1">
           <img
             src={`${paymentproofurl}`}
@@ -105,8 +115,6 @@ const UsersStats = () => {
             style={{ height: "auto", width: "250px" }}
           />
         </div>
-      ) : (
-        ""
       )}
     </div>
   );

@@ -31,7 +31,8 @@ export default function Footer() {
           </h2>
           <p>Luxury Fitness guidance </p>
           {/* <p>10th st, behind the gas station, Miami, FL-USA </p> */}
-          <p id="phone">+927-985-8884</p>
+          <p id="phone">+92-3072521060</p>
+          <p id="phone">+92-3121710449</p>
         </div>
         <div className="footer--links">
           <div className="footer--title">
@@ -43,9 +44,9 @@ export default function Footer() {
           <a href="/" className="footer--link">
             Support
           </a>
-          <a href="/" className="footer--link">
+          {/* <a href="/" className="footer--link">
             Sponsorships
-          </a>
+          </a> */}
         </div>
       </div>
       <div className="footer--wrapper">
@@ -67,22 +68,22 @@ export default function Footer() {
           <div className="footer--title">
             <h4>Social Media</h4>
           </div>
-          <a
+          {/* <a
             href="/"
             target="_blank"
             rel="noopener noreferrer"
             className="footer--link"
           >
             Facebook
-          </a>
-          <a
+          </a> */}
+          {/* <a
             href="/"
             target="_blank"
             rel="noopener noreferrer"
             className="footer--link"
           >
             Twitter
-          </a>
+          </a> */}
           <a
             href="/"
             target="_blank"
@@ -91,14 +92,14 @@ export default function Footer() {
           >
             Instagram
           </a>
-          <a
+          {/* <a
             href="/"
             target="_blank"
             rel="noopener noreferrer"
             className="footer--link"
           >
             Youtube
-          </a>
+          </a> */}
         </div>
       </div>
     </div>

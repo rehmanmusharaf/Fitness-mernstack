@@ -1,33 +1,34 @@
 export const reviews = [
   {
     id: 1,
-    img: "https://images.unsplash.com/photo-1599242460737-5174dba06145?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80",
-    name: "marc ferguson",
+    // img: "https://images.unsplash.com/photo-1599242460737-5174dba06145?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80",
+    img: "https://res.cloudinary.com/dgaw5qfuo/image/upload/v1717908572/haiderajaz_qd5ok6.jpg",
+    name: "Haider Ajaz",
     title: "office manager",
     quote:
       "I love Fitnation guidence towards y training which helps me alote regarding my daily routine and fitness",
   },
   {
     id: 2,
-    img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8&auto=format&fit=crop&w=500&q=60",
-    name: "Lisa Jackson",
+    img: "https://res.cloudinary.com/dgaw5qfuo/image/upload/v1717908526/haseeb_ogjx9q.jpg",
+    name: "Anas Alyas",
     title: "Advocate",
     quote:
       "The one I go to is new. All the equipment is good, and at the time I go there is enough for everyone to use without being on top of each other.",
   },
   {
     id: 3,
-    img: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8bWFufGVufDB8fDB8&auto=format&fit=crop&w=500&q=60",
-    name: "smith Lord",
+    img: "https://res.cloudinary.com/dgaw5qfuo/image/upload/v1717908534/zubair_wuxxew.jpg",
+    name: "Zubair",
     title: "product designer",
     quote:
       "I love Fitnation guidence towards y training which helps me alote regarding my daily routine and fitness",
   },
   {
     id: 4,
-    img: "https://images.unsplash.com/photo-1504703395950-b89145a5425b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTJ8fHdvbWFufGVufDB8fDB8&auto=format&fit=crop&w=500&q=60",
-    name: "amanda andersen",
-    title: "graphic designer",
+    img: "https://res.cloudinary.com/dgaw5qfuo/image/upload/v1717908530/anas_nhtmgv.jpg",
+    name: "Haseeb",
+    title: "Student",
     quote:
       "I think this gym is wonderful. They offer lots of classes and have plenty of cardio/weight lifting and even a separate section for women, which is nice.  ",
   },

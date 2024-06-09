@@ -38,10 +38,11 @@ function User() {
       const { data } = await axios.put(
         `${process.env.REACT_APP_server}/updateprofile`,
         {
-          updateprofile: fullName,
+          full_name: fullName,
           currentweight: currentWeight,
           email: email,
           phone: phone,
+          dob: dob,
           description: description,
           gainupto: gainUpto,
           looseupto: looseupto,
@@ -51,7 +52,6 @@ function User() {
       );
       if (data.success) {
         console.log("data is", data);
-
         toast.success("Profile Updated Successfully");
         setAuth({ user: data.user });
       } else {
@@ -82,6 +82,12 @@ function User() {
     setAge(age);
     // return age;
   }
+  const handleDobChange = (event) => {
+    console.log("dob change run");
+    let datee = new Date(event.target.value);
+    setDob(datee);
+    console.log(event.target.value);
+  };
   useEffect(() => {
     // console.log("Auth is: ", auth);
 
@@ -237,6 +243,7 @@ function User() {
                             defaultValue={dob}
                             placeholder={dob}
                             type="date"
+                            onChange={(e) => handleDobChange(e)}
                           ></Form.Control>
                         </Form.Group>
                       </Col>

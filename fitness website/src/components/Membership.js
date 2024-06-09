@@ -31,7 +31,7 @@ export default function Membership() {
       <div className="membership--container">
         <h1>View Our Plans</h1>
         <p className="membership--desc">
-          Get Started Today and recieve 80% off your first month{" "}
+          Get Started Today and recieve 50% off your first month{" "}
         </p>
         <div
           className="membership--wrap"
@@ -135,7 +135,7 @@ export default function Membership() {
                 <li>- Expert Guidance</li>
                 <li>- Progress Tracking</li>
                 <li>- Reduced Costs</li>
-                <li>- 20% off Supplements & Drinks</li>
+                {/* <li>- 20% off Supplements & Drinks</li> */}
               </ul>
             </div>
             <div className="button--su">
@@ -178,7 +178,7 @@ export default function Membership() {
                 />
               </svg>
 
-              <h4 className="fw-bold">Mantain weight+Body Fitness</h4>
+              <h4 className="fw-bold">Proper Body Fitness</h4>
             </div>
 
             <div className="membership--perk">

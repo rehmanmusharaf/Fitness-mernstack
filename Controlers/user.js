@@ -566,7 +566,8 @@ router.put("/updateprofile", isAuthenticated, async (req, res) => {
       user[key] = updateFields[key];
     });
 
-    await user.save();
+    const userne = await user.save();
+    console.log(userne);
     res
       .status(200)
       .json({ success: true, message: "Profile updated successfully.", user });

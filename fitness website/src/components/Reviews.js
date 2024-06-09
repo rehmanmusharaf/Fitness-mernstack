@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Reviews.css";
 import { reviews } from "../data";
 import { Button } from "./Button.js";
+// import haiderajaz from "./img/haiderajaz.jpeg";
+("");
 
 export default function Reviews() {
   const [people, setPeople] = useState(reviews);

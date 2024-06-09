@@ -115,9 +115,13 @@ export default function Plans() {
           <div className="underline"></div>
           <div className="">
             <p>
-              Turn your life around with a membership that fits your life and
-              needs. Whether you’re a fresh beginner or a committed expert,
-              Fitnation memberships are for those who insist on the best.
+              FitNation is the best choice for your fitness journey because it
+              offers state-of-the-art equipment, diverse classes, and a
+              welcoming community. Our certified trainers provide personalized
+              guidance, ensuring you reach your goals efficiently and safely.
+              With flexible membership options and a supportive environment,
+              FitNation makes it easy for everyone to stay motivated and achieve
+              their best health. Join us today to experience the difference!
             </p>
           </div>
         </div>
@@ -182,9 +186,9 @@ export default function Plans() {
           >
             <h3>How to Join</h3>
             <p>
-              Apply online or visit your nearest club and activate your
-              Fitnation memberships in minutes to train for the future. Our
-              memberships are your shortcut to your fitness ambitions.
+              Apply online and activate your Fitnation memberships in minutes to
+              train for the future. Our memberships are your shortcut to your
+              fitness ambitions.
             </p>
             {auth?.user == null ? (
               <Link to="/userregistration">
@@ -211,13 +215,13 @@ export default function Plans() {
         <div className="plans--ben--cont">
           <div className="plans-b">
             <p>
-              <i className="fas fa-check-circle"></i>+8000 Group Exercise
-              Classes monthly
+              <i className="fas fa-check-circle"></i>+500 Group Exercise Classes
+              monthly
             </p>
-            <p>
+            {/* <p>
               <i className="fas fa-check-circle"></i>International Passport
               Access to over 200 Clubs
-            </p>
+            </p> */}
             <p>
               <i className="fas fa-check-circle"></i>Access to the latest
               Fitness Innovations & Exclusive Programs
@@ -225,21 +229,21 @@ export default function Plans() {
           </div>
           <div className="plans-b">
             <p>
-              <i className="fas fa-check-circle"></i>1500+ Certified Personal
+              <i className="fas fa-check-circle"></i>15+ Certified Personal
               Trainers
             </p>
             <p>
               <i className="fas fa-check-circle"></i>Access to Good Vibes App
-              with 400+ Partner Discounts
+              with 40+ Partner Discounts
             </p>
-            <p>
-              <i className="fas fa-check-circle"></i>Basketball Court Access{" "}
-            </p>
+            {/* <p> */}
+            {/* <i className="fas fa-check-circle"></i>Basketball Court Access{" "} */}
+            {/* </p> */}
           </div>
           <div className="plans-b">
-            <p>
+            {/* <p>
               <i className="fas fa-check-circle"></i>Access to 20 Swimming Pools
-            </p>
+            </p> */}
             <p>
               <i className="fas fa-check-circle"></i>2 Getting You Started
               Personal Training Sessions
