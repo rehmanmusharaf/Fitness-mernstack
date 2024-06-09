@@ -237,22 +237,94 @@ async function createActivationToken(user) {
   }
 }
 
-// Account Activation
+// // Account Activation
+// router.post("/api/activation", async (req, res, next) => {
+//   try {
+//     // console.log("activation end point hit");
+//     const { activation_token } = req.body;
+//     // console.log(activation_token);
+//     const newUser = jwt.verify(activation_token, process.env.JWT_SECRET_KEY);
+//     console.log("new user is:", newUser);
+//     // console.log("aftre hhit activation new User", newUser);
+//     if (!newUser) {
+//       // deletecloudinaryimage(newUser.paymentproof.public_id);
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Invalid activation token" });
+//     }
+//     // console.log(newUser);
+//     const {
+//       full_name,
+//       email,
+//       phone,
+//       plantype,
+//       currentweight,
+//       height,
+//       gainupto,
+//       looseupto,
+//       dob,
+//       description,
+//       password,
+//       paymentproof,
+//     } = newUser;
+//     // console.log(
+//     //   full_name,
+//     //   email,
+//     //   phone,
+//     //   plantype,
+//     //   currentweight,
+//     //   height,
+//     //   dob,
+//     //   description,
+//     //   password
+//     // );
+//     const result = new usermodel({
+//       full_name,
+//       email,
+//       phone,
+//       plantype,
+//       gainupto,
+//       looseupto,
+//       currentweight,
+//       height,
+//       dob,
+//       description,
+//       password,
+//       paymentproof,
+//     });
+
+//     await result.save();
+//     const token = await result.getJwtToken();
+//     res.status(201).json({
+//       success: true,
+//       token,
+//       user: result,
+//     });
+//   } catch (error) {
+//     deletecloudinaryimage(newUser.paymentproof.public_id);
+//     res.status(500).json({ success: false, message: error.message, error });
+//   }
+// });
+
 router.post("/api/activation", async (req, res, next) => {
   try {
-    // console.log("activation end point hit");
     const { activation_token } = req.body;
-    // console.log(activation_token);
-    const newUser = jwt.verify(activation_token, process.env.JWT_SECRET_KEY);
-    console.log("new user is:", newUser);
-    // console.log("aftre hhit activation new User", newUser);
-    if (!newUser) {
-      // deletecloudinaryimage(newUser.paymentproof.public_id);
+
+    let newUser;
+    try {
+      newUser = jwt.verify(activation_token, process.env.JWT_SECRET_KEY);
+    } catch (err) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid activation token" });
     }
-    // console.log(newUser);
+
+    if (!newUser) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid activation token" });
+    }
+
     const {
       full_name,
       email,
@@ -267,17 +339,13 @@ router.post("/api/activation", async (req, res, next) => {
       password,
       paymentproof,
     } = newUser;
-    // console.log(
-    //   full_name,
-    //   email,
-    //   phone,
-    //   plantype,
-    //   currentweight,
-    //   height,
-    //   dob,
-    //   description,
-    //   password
-    // );
+
+    // Optional: Validate and sanitize fields here
+
+    // Hash the password before saving
+    // const bcrypt = require("bcryptjs");
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("new user is", newUser);
     const result = new usermodel({
       full_name,
       email,
@@ -293,15 +361,22 @@ router.post("/api/activation", async (req, res, next) => {
       paymentproof,
     });
 
-    await result.save();
+    const check = await result.save();
+    console.log("heck is:", check);
+    if (!check) {
+      deletecloudinaryimage(newUser.paymentproof.public_id);
+    }
     const token = await result.getJwtToken();
+    // Optional: Set cookie if needed
     res.status(201).json({
       success: true,
       token,
       user: result,
     });
   } catch (error) {
-    deletecloudinaryimage(newUser.paymentproof.public_id);
+    // if (newUser && newUser?.paymentproof && newUser?.paymentproof?.public_id)
+    // {
+    // }
     res.status(500).json({ success: false, message: error.message, error });
   }
 });
@@ -372,8 +447,8 @@ router.get("/user/logout", (req, res, next) => {
     res.cookie("token", null, {
       expires: new Date(0),
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Set secure flag to true in production
-      sameSite: "None", // Necessary for cross-site requests
+      // secure: process.env.NODE_ENV === "production", // Set secure flag to true in production
+      // sameSite: "None", // Necessary for cross-site requests
     });
     // httpOnly: true,
     res
