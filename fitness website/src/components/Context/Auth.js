@@ -17,9 +17,13 @@ const Auth = ({ children }) => {
           return { ...prev, user: data.user, success: true };
         });
       } else {
-        console.log(data);
+        console.log("user detail is :", data);
+
+        // console.log(data);
       }
     } catch (error) {
+      console.log("user detail erro is :", error);
+
       setAuth((prev) => {
         return { ...prev, user: false, success: false };
       });

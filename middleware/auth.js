@@ -20,6 +20,7 @@ exports.isAuthenticated = async (req, res, next) => {
       process.env.JWT_SECRET_KEY
     );
     req.user = await usermodel.findById(decoded?.id);
+    // console.log("req.user is:", req.user);
     // if (req?.user?.role !== "user") {
     //   return res
     //     .status(400)
