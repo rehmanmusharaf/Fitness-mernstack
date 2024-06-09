@@ -4,10 +4,17 @@ const sendToken = async (user, statuscode, res) => {
     const token = await user.getJwtToken();
 
     // console.log("token is  : ", token);
+    // const option = {
+    //   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    //   httpOnly: true,
+    // };
     const option = {
       expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
       httpOnly: true,
+      secure: true, // Only send cookie over HTTPS
+      sameSite: "strict", // Prevent certain types of CSRF attacks
     };
+
     // user = Object.keys(user)
     //   .filter((objKey) => objKey !== "password")
     //   .reduce((newObj, key) => {
