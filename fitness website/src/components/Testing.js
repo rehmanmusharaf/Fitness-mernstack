@@ -88,3 +88,13 @@ const App = () => {
 };
 
 export default App;
+
+// {validClasses.includes(prediction.className.toLowerCase())
+
+// let check=false;
+// predictions.foreach((prediction, index) => (
+//   if(validClasses.includes(prediction.className.toLowerCase())
+//     {
+//       check=true;
+//     }
+// ))}

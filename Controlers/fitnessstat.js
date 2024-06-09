@@ -227,7 +227,6 @@ router.get(
     try {
       console.log("API End Point hit");
       console.log("Query from user:", req.query);
-
       const { id } = req.query;
       if (!id) {
         return res
@@ -253,7 +252,6 @@ router.get(
       const today = new Date();
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(today.getDate() - 7);
-
       const fitnessdata = await FitnessStat.findOne({ userid: id });
       if (!fitnessdata) {
         return res.status(400).json({
@@ -261,28 +259,50 @@ router.get(
           message: "No fitness data found for this user",
         });
       }
+      // console.log("fitnassstat", fitnessdata.stat);
+      let fitnessarray = fitnessdata.stat;
+      // // if(page==1)
+      // // {
 
+      // let arraylength = fitnessarray.length;
+      // let startIndex = arraylength - 7 * page;
+      // let endIndex = arraylength - 7 * (page - 1);
+
+      // // Ensure startIndex is not negative
+      // if (startIndex < 0) {
+      //   startIndex = 0;
+      // }
+
+      // fitnessarray = fitnessarray.slice(startIndex, endIndex);
+
+      // let arraylength=fitnessarray.length;
+      //   fitnessarray = fitnessarray.slice((arraylength-(7*page)),arraylength-((7*(page-1))));
+      // }
+      // else{
+
+      // }
       const recentPerformance = fitnessdata.stat.filter((entry) => {
         const entryDate = new Date(entry.date);
         return entryDate >= sevenDaysAgo && entryDate <= today;
       });
 
       console.log("Recent Performance Length:", recentPerformance.length);
+      let arraylength2 = fitnessarray.length;
+      let startIndex2 = arraylength2 - 7 * page;
+      let endIndex2 = arraylength2 - 7 * (page - 1);
 
-      const startIndex = (page - 1) * limit;
-      const endIndex = page * limit;
-
-      console.log("Start Index:", startIndex);
-      console.log("End Index:", endIndex);
-      const paginatedPerformance = recentPerformance.slice(
-        startIndex,
-        endIndex
-      );
+      // Ensure startIndex is not negative
+      if (startIndex2 < 0) {
+        startIndex2 = 0;
+      }
+      // console.log("start index and end index", startIndex2, endIndex2);
+      fitnessarray = fitnessarray.slice(startIndex2, endIndex2);
       // totalPages: Math.ceil(recentPerformance.length / limit),
-
+      // paginatedPerformance
+      // console.log("page and its array is:", page, " +  ", fitnessarray);
       res.status(200).json({
         success: true,
-        userperformance: paginatedPerformance,
+        userperformance: fitnessarray,
         page,
         plantype: user.plantype,
         gainupto: user.gainupto,

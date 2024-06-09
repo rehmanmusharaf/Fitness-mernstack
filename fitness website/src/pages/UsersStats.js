@@ -34,6 +34,14 @@ const UsersStats = () => {
       console.error("Error fetching performance data:", error);
     }
   };
+  function handlenext() {
+    console.log("Handle Next Run!");
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    let nextpageis = Math.min(currentPage + 1, totalPages);
+    console.log("Next Page is: ", nextpageis);
+  }
+
+  // function handlenext() {}
 
   useEffect(() => {
     fetchPerformanceData(currentPage);
@@ -87,9 +95,7 @@ const UsersStats = () => {
             Page {currentPage} of {totalPages}
           </span>
           <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
+            onClick={() => handlenext()}
             disabled={currentPage === totalPages}
           >
             Next
